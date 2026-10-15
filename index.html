@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiPiket SMKN Wewiku Badarai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#1d4ed8',
+                            600: '#1e40af',
+                            700: '#1e3a8a',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        school: {
+                            green: '#15803d',
+                            yellow: '#f59e0b',
+                            blue: '#1d4ed8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER NAVBAR -->
+    <header class="bg-brand-700 text-white shadow-lg sticky top-0 z-40 border-b-4 border-amber-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1 rounded-lg shadow-inner flex items-center justify-center">
+                    <img src="DESIGN_-_2-removebg-preview.jpg" alt="Logo SMKN Wewiku Badarai" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 220\' width=\'50\' height=\'55\'><polygon points=\'100,5 195,50 170,210 30,210 5,50\' fill=\'%231d4ed8\' stroke=\'%23dc2626\' stroke-width=\'6\'/><polygon points=\'100,20 180,58 158,195 42,195 20,58\' fill=\'%23facc15\'/><path d=\'M30 145 Q 100 120 170 145 L 170 195 Q 100 205 30 195 Z\' fill=\'%2315803d\'/><polygon points=\'100,28 107,45 125,45 111,55 116,72 100,62 84,72 89,55 75,45 93,45\' fill=\'%23facc15\' stroke=\'%23ffffff\' stroke-width=\'1\'/><path d=\'M45 80 Q 100 65 155 80 L 150 135 Q 100 150 50 135 Z\' fill=\'%23ffffff\' stroke=\'%231e293b\' stroke-width=\'2\'/><text x=\'100\' y=\'102\' font-family=\'sans-serif\' font-size=\'10\' font-weight=\'bold\' fill=\'%231e3a8a\' text-anchor=\'middle\'>SMKN WB</text><text x=\'100\' y=\'175\' font-family=\'sans-serif\' font-size=\'11\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>MALAKA - NTT</text></svg>';">
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-wide leading-tight uppercase">SiPiket</h1>
+                    <p class="text-xs sm:text-sm font-medium text-amber-300">SMK Negeri Wewiku Badarai</p>
+                </div>
+            </div>
+            
+            <!-- Login / Profile Bar -->
+            <div id="user-navbar-info" class="flex items-center space-x-3">
+                <span id="role-badge" class="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 flex items-center">
+                    <i class="fa-solid fa-user-shield mr-1.5"></i> <span id="current-user-text">Belum Login</span>
+                </span>
+                <button id="auth-btn" onclick="openLoginModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center space-x-1 shadow-md">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span id="auth-btn-label">Masuk</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MODAL LOGIN AKSEs -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all border border-slate-200">
+            <div class="bg-brand-700 p-6 text-white text-center relative border-b-4 border-amber-400">
+                <img src="DESIGN_-_2-removebg-preview.jpg" alt="Logo" class="h-20 w-auto mx-auto mb-2 drop-shadow-md" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 220\' width=\'80\' height=\'88\'><polygon points=\'100,5 195,50 170,210 30,210 5,50\' fill=\'%231d4ed8\' stroke=\'%23dc2626\' stroke-width=\'6\'/><polygon points=\'100,20 180,58 158,195 42,195 20,58\' fill=\'%23facc15\'/><path d=\'M30 145 Q 100 120 170 145 L 170 195 Q 100 205 30 195 Z\' fill=\'%2315803d\'/><polygon points=\'100,28 107,45 125,45 111,55 116,72 100,62 84,72 89,55 75,45 93,45\' fill=\'%23facc15\' stroke=\'%23ffffff\' stroke-width=\'1\'/><path d=\'M45 80 Q 100 65 155 80 L 150 135 Q 100 150 50 135 Z\' fill=\'%23ffffff\' stroke=\'%231e293b\' stroke-width=\'2\'/><text x=\'100\' y=\'102\' font-family=\'sans-serif\' font-size=\'10\' font-weight=\'bold\' fill=\'%231e3a8a\' text-anchor=\'middle\'>SMKN WB</text><text x=\'100\' y=\'175\' font-family=\'sans-serif\' font-size=\'11\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>MALAKA - NTT</text></svg>';">
+                <h2 class="text-xl font-bold uppercase tracking-wider">Akses SiPiket Digital</h2>
+                <p class="text-xs text-amber-300 mt-0.5">SMK Negeri Wewiku Badarai - Malaka</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input type="text" id="login-username" placeholder="Masukkan username..." required class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="login-password" placeholder="Masukkan password..." required class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Masuk ke Sistem</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- ==================== GURU PIKET VIEW ==================== -->
+        <div id="piket-view" class="space-y-6">
+            <!-- Navigation Tabs -->
+            <div class="bg-white rounded-xl shadow-sm p-1.5 border border-slate-200 flex overflow-x-auto hide-scrollbar space-x-1 no-print">
+                <button onclick="switchTab('kbm')" id="tab-kbm" class="tab-btn flex-1 min-w-[140px] py-3 px-3 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center space-x-2 transition bg-brand-600 text-white shadow-sm">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>1. Kontrol KBM</span>
+                </button>
+                <button onclick="switchTab('upacara')" id="tab-upacara" class="tab-btn flex-1 min-w-[140px] py-3 px-3 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100 flex items-center justify-center space-x-2 transition">
+                    <i class="fa-solid fa-flag"></i>
+                    <span>2. Upacara Senin</span>
+                </button>
+                <button onclick="switchTab('briefing')" id="tab-briefing" class="tab-btn flex-1 min-w-[140px] py-3 px-3 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100 flex items-center justify-center space-x-2 transition">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>3. Briefing</span>
+                </button>
+                <button onclick="switchTab('piket-harian')" id="tab-piket-harian" class="tab-btn flex-1 min-w-[140px] py-3 px-3 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100 flex items-center justify-center space-x-2 transition">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>4. Guru Piket (5 Orang)</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: KONTROL KBM -->
+            <div id="content-kbm" class="tab-content space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+                    <div class="border-b border-slate-100 pb-4 mb-4 flex justify-between items-center flex-wrap gap-2">
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-book-open text-brand-600"></i>
+                                Kontrol Kegiatan Belajar Mengajar (KBM)
+                            </h2>
+                            <p class="text-xs text-slate-500">Pencatatan kehadiran guru di kelas SMKN Wewiku Badarai</p>
+                        </div>
+                        <span id="current-date-badge" class="bg-amber-100 text-amber-800 border border-amber-300 text-xs px-3 py-1 rounded-full font-bold"></span>
+                    </div>
+
+                    <form id="form-kbm" onsubmit="saveKbmReport(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Kelas</label>
+                                <select id="kbm-kelas" required class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none bg-white">
+                                    <option value="">-- Pilih Kelas SMKN WB --</option>
+                                    <option value="X ATPH">X ATPH</option>
+                                    <option value="X APAT">X APAT</option>
+                                    <option value="X ATU">X ATU</option>
+                                    <option value="XI ATPH">XI ATPH</option>
+                                    <option value="XI APAT">XI APAT</option>
+                                    <option value="XI ATU">XI ATU</option>
+                                    <option value="XII ATPH">XII ATPH</option>
+                                    <option value="XII APAT">XII APAT</option>
+                                    <option value="XII ATU">XII ATU</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Jam Pelajaran Ke-</label>
+                                <input type="text" id="kbm-jampel" placeholder="Misal: 1 - 3 (07.15 - 09.30)" required class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Mata Pelajaran</label>
+                                <input type="text" id="kbm-mapel" placeholder="Nama Mata Pelajaran..." required class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Guru Pengajar</label>
+                                <select id="kbm-guru" required class="guru-select-dropdown w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none bg-white">
+                                    <!-- Dynamic Guru Options -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Status Kehadiran Guru</label>
+                                <select id="kbm-status" required class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none bg-white">
+                                    <option value="Hadir">Hadir di Kelas</option>
+                                    <option value="Tugas">Tidak Hadir - Ada Tugas</option>
+                                    <option value="Izin">Izin Dinas / Pribadi</option>
+                                    <option value="Sakit">Sakit</option>
+                                    <option value="Tanpa Keterangan">Tanpa Keterangan (Alpa)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Catatan / Penanganan oleh Piket</label>
+                            <textarea id="kbm-catatan" rows="2" placeholder="Tuliskan jika ada penanganan khusus, penyerahan tugas, atau pergantian jam..." class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md transition flex items-center space-x-2">
+                                <i class="fa-solid fa-plus-circle"></i>
+                                <span>Simpan Laporan KBM</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tabel Data KBM Hari Ini -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                    <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-brand-600"></i> Catatan KBM Hari Ini
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-600">
+                            <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3">Kelas</th>
+                                    <th class="p-3">Jam Ke</th>
+                                    <th class="p-3">Mapel / Guru</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Catatan Piket</th>
+                                    <th class="p-3 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-kbm-today" class="divide-y divide-slate-100">
+                                <tr><td colspan="6" class="p-4 text-center text-slate-400">Belum ada data KBM dicatat hari ini.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: UPACARA BENDERA HARI SENIN -->
+            <div id="content-upacara" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+                    <div class="border-b border-slate-100 pb-4 mb-4">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-flag text-red-600"></i>
+                            Laporan Upacara Bendera Hari Senin
+                        </h2>
+                        <p class="text-xs text-slate-500">Pencatatan pembina upacara dan status presensi seluruh guru SMKN Wewiku Badarai</p>
+                    </div>
+
+                    <form id="form-upacara" onsubmit="saveUpacaraReport(event)" class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Upacara</label>
+                                <input type="date" id="upacara-tanggal" required class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pembina Upacara</label>
+                                <select id="upacara-pembina" required class="guru-select-dropdown w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none bg-white">
+                                    <!-- Dynamic Guru Options -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Presensi Per Guru untuk Upacara -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Presensi Kehadiran Guru Pada Upacara</label>
+                            <div class="border border-slate-200 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                                <table class="w-full text-xs text-left">
+                                    <thead class="bg-slate-100 font-bold text-slate-700 sticky top-0 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-3">Nama Guru</th>
+                                            <th class="p-3 text-center">Status Kehadiran Upacara</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="upacara-guru-attendance-list" class="divide-y divide-slate-100">
+                                        <!-- Dynamic List Guru -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Evaluasi / Catatan Upacara</label>
+                            <textarea id="upacara-catatan" rows="3" placeholder="Catatan jalannya upacara, kelengkapan seragam siswa/guru, petugas upacara, dll." class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md transition flex items-center space-x-2">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Simpan Laporan Upacara</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 3: BRIEFING DAN EVALUASI -->
+            <div id="content-briefing" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+                    <div class="border-b border-slate-100 pb-4 mb-4">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-comments text-amber-600"></i>
+                            Laporan Briefing & Evaluasi
+                        </h2>
+                        <p class="text-xs text-slate-500">Pencatatan arahan pimpinan dan presensi kehadiran guru</p>
+                    </div>
+
+                    <form id="form-briefing" onsubmit="saveBriefingReport(event)" class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Jenis Pertemuan</label>
+                                <select id="briefing-jenis" class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600">
+                                    <option>Briefing Pagi Hari</option>
+                                    <option>Evaluasi Mingguan Guru</option>
+                                    <option>Rapat Koordinasi Khusus</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Pemimpin Briefing</label>
+                                <select id="briefing-pimpinan" required class="guru-select-dropdown w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600 bg-white">
+                                    <!-- Dynamic Guru Options -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Presensi Per Guru untuk Briefing -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Presensi Kehadiran Guru Pada Briefing</label>
+                            <div class="border border-slate-200 rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+                                <table class="w-full text-xs text-left">
+                                    <thead class="bg-slate-100 font-bold text-slate-700 sticky top-0 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-3">Nama Guru</th>
+                                            <th class="p-3 text-center">Status Kehadiran Briefing</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="briefing-guru-attendance-list" class="divide-y divide-slate-100">
+                                        <!-- Dynamic List Guru -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Poin-poin Arahan / Notulensi Briefing</label>
+                            <textarea id="briefing-poin" rows="4" placeholder="Ringkasan poin penting arahan pimpinan atau tindak lanjut evaluasi..." required class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600"></textarea>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md transition flex items-center space-x-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Simpan Laporan Briefing</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 4: KEHADIRAN 5 GURU PIKET HARIAN -->
+            <div id="content-piket-harian" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+                    <div class="border-b border-slate-100 pb-4 mb-4">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-users-gear text-emerald-600"></i>
+                            Kehadiran Tim Guru Piket Harian (5 Personil)
+                        </h2>
+                        <p class="text-xs text-slate-500">Pencatatan presensi dan keaktifan 5 guru piket yang bertugas hari ini</p>
+                    </div>
+
+                    <form id="form-piket-harian" onsubmit="savePiketHarianReport(event)" class="space-y-6">
+                        
+                        <div class="space-y-4">
+                            <p class="text-xs font-bold text-slate-700 uppercase bg-slate-100 p-2 rounded-lg">Daftar 5 Guru Piket Bertugas:</p>
+                            
+                            <!-- 5 Cards / Rows for 5 Piket Teachers -->
+                            <div id="piket-teachers-container" class="space-y-3">
+                                <!-- Generated Dynamically via Javascript -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Catatan Khusus / Kejadian Penting Harian</label>
+                            <textarea id="piket-kejadian" rows="3" placeholder="Siswa sakit/pulang cepat, kunjungan tamu dinas, ketertiban lingkungan sekolah..." class="w-full rounded-xl border-slate-300 border p-2.5 text-sm focus:ring-2 focus:ring-brand-600"></textarea>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md transition flex items-center space-x-2">
+                                <i class="fa-solid fa-user-check"></i>
+                                <span>Simpan Presensi Tim Piket</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ADMIN / MANAJEMEN VIEW ==================== -->
+        <div id="admin-view" class="hidden space-y-6">
+            
+            <!-- Dashboard Summary Widgets -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3.5 bg-blue-100 text-blue-600 rounded-xl text-2xl">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Laporan KBM</p>
+                        <p id="stat-kbm-count" class="text-2xl font-bold text-slate-800">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3.5 bg-red-100 text-red-600 rounded-xl text-2xl">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Jam Guru Kosong</p>
+                        <p id="stat-absent-count" class="text-2xl font-bold text-slate-800">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3.5 bg-amber-100 text-amber-600 rounded-xl text-2xl">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Laporan Upacara</p>
+                        <p id="stat-upacara-count" class="text-2xl font-bold text-slate-800">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-3">
+                    <div class="p-3.5 bg-emerald-100 text-emerald-600 rounded-xl text-2xl">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Briefing Tercatat</p>
+                        <p id="stat-briefing-count" class="text-2xl font-bold text-slate-800">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION INFOGRAFIS & DIAGRAM LINGKARAN -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Diagram Lingkaran KBM -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between md:col-span-1">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-chart-pie text-brand-600"></i>
+                                Infografis Status KBM
+                            </h3>
+                            <span id="chart-period-label" class="text-[11px] font-bold px-2 py-0.5 bg-brand-50 text-brand-700 rounded-md">Semua Data</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">Persentase kehadiran guru pada Kegiatan Belajar Mengajar</p>
+                        <div class="relative w-full max-w-[220px] mx-auto h-[220px]">
+                            <canvas id="kbmChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-center text-xs">
+                        <div class="bg-emerald-50 p-2 rounded-xl border border-emerald-100">
+                            <span class="block text-[10px] text-emerald-600 font-medium">Tingkat Hadir</span>
+                            <span id="stat-rate-hadir" class="font-extrabold text-emerald-700 text-base">0%</span>
+                        </div>
+                        <div class="bg-red-50 p-2 rounded-xl border border-red-100">
+                            <span class="block text-[10px] text-red-600 font-medium">Tingkat Absen/Tugas</span>
+                            <span id="stat-rate-absent" class="font-extrabold text-red-700 text-base">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ringkasan Statistik Mingguan & Bulanan -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm md:col-span-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-chart-bar text-amber-600"></i>
+                                Analisis Rekapan Kehadiran Guru (KBM)
+                            </h3>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                            <div class="bg-emerald-50/70 border border-emerald-200 p-3 rounded-xl text-center">
+                                <p class="text-[11px] font-bold text-emerald-700 uppercase">Hadir</p>
+                                <p id="chart-count-hadir" class="text-xl font-black text-emerald-800">0</p>
+                            </div>
+                            <div class="bg-blue-50/70 border border-blue-200 p-3 rounded-xl text-center">
+                                <p class="text-[11px] font-bold text-blue-700 uppercase">Ada Tugas</p>
+                                <p id="chart-count-tugas" class="text-xl font-black text-blue-800">0</p>
+                            </div>
+                            <div class="bg-amber-50/70 border border-amber-200 p-3 rounded-xl text-center">
+                                <p class="text-[11px] font-bold text-amber-700 uppercase">Izin / Sakit</p>
+                                <p id="chart-count-izin" class="text-xl font-black text-amber-800">0</p>
+                            </div>
+                            <div class="bg-red-50/70 border border-red-200 p-3 rounded-xl text-center">
+                                <p class="text-[11px] font-bold text-red-700 uppercase">Alpa</p>
+                                <p id="chart-count-alpa" class="text-xl font-black text-red-800">0</p>
+                            </div>
+                        </div>
+
+                        <!-- Progress indicator bar -->
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                    <span>Distribusi Kehadiran di Kelas</span>
+                                    <span id="kbm-total-filtered-text">Total: 0 Jam Pelajaran</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden flex">
+                                    <div id="bar-hadir" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div>
+                                    <div id="bar-tugas" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
+                                    <div id="bar-izin" class="bg-amber-500 h-full transition-all duration-500" style="width: 0%"></div>
+                                    <div id="bar-alpa" class="bg-red-500 h-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-start space-x-2">
+                        <i class="fa-solid fa-circle-info text-brand-600 mt-0.5"></i>
+                        <span>Gunakan filter rentang waktu (<strong>Minggu Ini</strong> atau <strong>Bulan Ini</strong>) pada panel di bawah untuk memperbarui diagram dan analisis data KBM secara acurat.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Panel -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 no-print">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-100">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Rekapan & Analytics Laporan</h2>
+                        <p class="text-xs text-slate-500">Filter berdasarkan rentang waktu mingguan, bulanan, dan tahunan</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="exportToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-file-excel"></i>
+                            <span>Ekspor Excel/CSV</span>
+                        </button>
+                        <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Cetak PDF Laporan</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Rentang Waktu Rekapan</label>
+                        <select id="filter-range" onchange="applyAdminFilter()" class="w-full border-slate-300 border rounded-xl p-2.5 text-xs bg-white">
+                            <option value="all">Semua Data Rekapan</option>
+                            <option value="weekly">Minggu Ini</option>
+                            <option value="monthly">Bulan Ini</option>
+                            <option value="yearly">Tahun Ini</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Modul / Kategori</label>
+                        <select id="filter-category" onchange="applyAdminFilter()" class="w-full border-slate-300 border rounded-xl p-2.5 text-xs bg-white">
+                            <option value="kbm">1. Kontrol KBM</option>
+                            <option value="upacara">2. Presensi Upacara Senin</option>
+                            <option value="briefing">3. Briefing & Evaluasi</option>
+                            <option value="piket">4. Kehadiran Guru Piket</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Pencarian Kata Kunci</label>
+                        <input type="text" id="filter-search" oninput="applyAdminFilter()" placeholder="Nama Guru / Kelas / Topik..." class="w-full border-slate-300 border rounded-xl p-2.5 text-xs">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="resetFilters()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 p-2.5 rounded-xl text-xs font-bold border border-slate-200 transition">
+                            Reset Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRINT HEADER (Hanya Tampil saat Cetak PDF) -->
+            <div class="hidden print-only mb-6 text-center border-b-2 border-slate-800 pb-4">
+                <div class="flex items-center justify-center space-x-4 mb-2">
+                    <img src="DESIGN_-_2-removebg-preview.jpg" class="h-16 w-auto" alt="Logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 220\' width=\'60\' height=\'66\'><polygon points=\'100,5 195,50 170,210 30,210 5,50\' fill=\'%231d4ed8\' stroke=\'%23dc2626\' stroke-width=\'6\'/><polygon points=\'100,20 180,58 158,195 42,195 20,58\' fill=\'%23facc15\'/><path d=\'M30 145 Q 100 120 170 145 L 170 195 Q 100 205 30 195 Z\' fill=\'%2315803d\'/><polygon points=\'100,28 107,45 125,45 111,55 116,72 100,62 84,72 89,55 75,45 93,45\' fill=\'%23facc15\' stroke=\'%23ffffff\' stroke-width=\'1\'/><path d=\'M45 80 Q 100 65 155 80 L 150 135 Q 100 150 50 135 Z\' fill=\'%23ffffff\' stroke=\'%231e293b\' stroke-width=\'2\'/><text x=\'100\' y=\'102\' font-family=\'sans-serif\' font-size=\'10\' font-weight=\'bold\' fill=\'%231e3a8a\' text-anchor=\'middle\'>SMKN WB</text><text x=\'100\' y=\'175\' font-family=\'sans-serif\' font-size=\'11\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>MALAKA - NTT</text></svg>';">
+                    <div>
+                        <h1 class="font-extrabold text-xl uppercase tracking-wider">PEMERINTAH PROVINSI NUSA TENGGARA TIMUR</h1>
+                        <h2 class="font-bold text-lg">SMK NEGERI WEWIKU BADARAI</h2>
+                        <p class="text-xs">Alamat: Badarai, Kec. Wewiku, Kab. Malaka, Nusa Tenggara Timur</p>
+                    </div>
+                </div>
+                <h3 id="print-title" class="font-bold text-base uppercase mt-3 underline">REKAPITULASI LAPORAN PIKET SEKOLAH</h3>
+            </div>
+
+            <!-- Rekapan Data Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-600">
+                        <thead id="admin-table-head" class="bg-slate-100 text-slate-800 uppercase font-bold border-b border-slate-200">
+                            <!-- Dynamic Table Head -->
+                        </thead>
+                        <tbody id="admin-table-body" class="divide-y divide-slate-100">
+                            <!-- Dynamic Table Body -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl transition transform translate-y-20 opacity-0 flex items-center space-x-3 z-50">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toast-msg" class="text-xs font-bold">Pesan Notifikasi</span>
+    </div>
+
+    <script>
+        // DAFTAR NAMA GURU SMKN WEWIKU BADARAI (TERLAMPIR)
+        const DAFTAR_GURU = [
+            "France Oktaviani Bria, S. Pd",
+            "Germano Maia, S. Pi",
+            "Romanus Seran Sonbay, S. Pd",
+            "Frans Nahak Klau, SP",
+            "Leonardus Nahak, S. Pd",
+            "Elisabeth Hoar Seran, S. Pd",
+            "Bernadina Maria Bria, S. Pd",
+            "Agustinus Nahak, SP",
+            "Alesandro K. Leki, SP",
+            "Rovista M. L. Nahak, S. Kel",
+            "Elisabeth Motu, S. Kel",
+            "Olrifiana Abuk Sirik, S. Pd",
+            "Hasrul, S.Pd",
+            "Laurensius Emilianus Seran, S.Si",
+            "Yuliana Luruk, S. Pd",
+            "Maria Yovita Eno Klau, S.Pd",
+            "Alfrida Hoar Klau, S.Pd",
+            "Handrianus Allen Klau, S.Pd",
+            "Selfiana Hediyanti Buraen, S.Pd",
+            "Gaudensia Hoar, A. Md.P",
+            "Yovita Telik Natel, S.Pt",
+            "Anna Maria Soares, S.Pd",
+            "Agustina Hoar, S.Pt",
+            "Kristian Nurak Seda, S.Pi",
+            "Maria Agustina Hoar, S.E",
+            "Aloisius Lau, S.Pd",
+            "Lelly Nurhayati, S.Pt",
+            "Alfonsius Nahak, S.Pd",
+            "Maria Yulita Klau",
+            "Yustina Maria Nahak, S.Ag",
+            "Maria Domingga Rika, S.Pd",
+            "Melchior Seran, S.Pd",
+            "Viktoriana Naif, S.Pd",
+            "Gregoriana Tefa, S.Pd"
+        ];
+
+        // State Management
+        let currentUserRole = null; // 'piket', 'admin', or null
+        let currentTab = 'kbm';
+        let kbmPieChart = null;
+        
+        // LocalStorage Data Stores
+        let kbmData = JSON.parse(localStorage.getItem('sipiket_wb_kbm')) || [];
+        let upacaraData = JSON.parse(localStorage.getItem('sipiket_wb_upacara')) || [];
+        let briefingData = JSON.parse(localStorage.getItem('sipiket_wb_briefing')) || [];
+        let piketHarianData = JSON.parse(localStorage.getItem('sipiket_wb_piket_harian')) || [];
+
+        // ON PAGE LOAD
+        window.onload = function () {
+            // Set Default Date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('upacara-tanggal').value = today;
+            document.getElementById('current-date-badge').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            populateGuruDropdowns();
+            renderUpacaraGuruList();
+            renderBriefingGuruList();
+            render5PiketInputFields();
+            
+            // Check session or prompt login
+            const savedRole = sessionStorage.getItem('sipiket_wb_role');
+            if (savedRole) {
+                setRole(savedRole);
+            } else {
+                openLoginModal();
+            }
+
+            renderTodayKbmTable();
+            renderAdminStats();
+            initKbmChart();
+        };
+
+        function initKbmChart() {
+            const ctx = document.getElementById('kbmChart').getContext('2d');
+            kbmPieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Hadir', 'Ada Tugas', 'Izin / Sakit', 'Alpa'],
+                    datasets: [{
+                        data: [0, 0, 0, 0],
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 10, family: 'Inter' },
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function renderUpacaraGuruList() {
+            const container = document.getElementById('upacara-guru-attendance-list');
+            container.innerHTML = DAFTAR_GURU.map((guru, index) => `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-medium text-slate-700">${guru}</td>
+                    <td class="p-2 text-center">
+                        <select id="upacara-status-guru-${index}" data-guru="${guru}" class="upacara-guru-status border border-slate-300 rounded-lg p-1.5 text-xs bg-white">
+                            <option value="Hadir">Hadir</option>
+                            <option value="Izin">Izin</option>
+                            <option value="Sakit">Sakit</option>
+                            <option value="Alpa">Alpa</option>
+                            <option value="Terlambat">Terlambat</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderBriefingGuruList() {
+            const container = document.getElementById('briefing-guru-attendance-list');
+            container.innerHTML = DAFTAR_GURU.map((guru, index) => `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-medium text-slate-700">${guru}</td>
+                    <td class="p-2 text-center">
+                        <select id="briefing-status-guru-${index}" data-guru="${guru}" class="briefing-guru-status border border-slate-300 rounded-lg p-1.5 text-xs bg-white">
+                            <option value="Hadir">Hadir</option>
+                            <option value="Izin">Izin</option>
+                            <option value="Sakit">Sakit</option>
+                            <option value="Alpa">Alpa</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function render5PiketInputFields() {
+            const container = document.getElementById('piket-teachers-container');
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                html += `
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Guru Piket #${i}</label>
+                            <select id="piket-guru-${i}" class="guru-select-dropdown w-full rounded-lg border-slate-300 border p-2 text-xs bg-white">
+                                <option value="">-- Pilih Guru Piket #${i} --</option>
+                                ${DAFTAR_GURU.map(g => `<option value="${g}">${g}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Status Kehadiran Piket</label>
+                            <select id="piket-status-${i}" class="w-full rounded-lg border-slate-300 border p-2 text-xs bg-white">
+                                <option value="Hadir Bertugas">Hadir Bertugas</option>
+                                <option value="Tidak Bertugas">Tidak Bertugas</option>
+                                <option value="Izin">Izin</option>
+                                <option value="Sakit">Sakit</option>
+                                <option value="Digantikan">Digantikan Guru Lain</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Jam Kedatangan</label>
+                            <input type="time" id="piket-jam-${i}" value="07:00" class="w-full rounded-lg border-slate-300 border p-2 text-xs">
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('login-username').value.trim();
+            const pass = document.getElementById('login-password').value.trim();
+
+            if (user === 'piket' && pass === 'piket123') {
+                setRole('piket');
+                showToast('Berhasil masuk sebagai Guru Piket');
+                document.getElementById('login-modal').classList.add('hidden');
+            } else if (user === 'admin' && pass === 'admin123') {
+                setRole('admin');
+                showToast('Berhasil masuk sebagai Admin / Manajemen');
+                document.getElementById('login-modal').classList.add('hidden');
+            } else {
+                alert('Username atau Password salah! Gunakan piket/piket123 atau admin/admin123');
+            }
+        }
+
+        function setRole(role) {
+            currentUserRole = role;
+            sessionStorage.setItem('sipiket_wb_role', role);
+
+            const badge = document.getElementById('role-badge');
+            const userText = document.getElementById('current-user-text');
+            const authBtnLabel = document.getElementById('auth-btn-label');
+
+            if (role === 'admin') {
+                userText.innerText = "Admin / Manajemen";
+                badge.className = "px-3 py-1 text-xs font-bold rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/30";
+                document.getElementById('piket-view').classList.add('hidden');
+                document.getElementById('admin-view').classList.remove('hidden');
+                authBtnLabel.innerText = "Ganti Akun";
+                renderAdminStats();
+                applyAdminFilter();
+            } else {
+                userText.innerText = "Guru Piket";
+                badge.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/30";
+                document.getElementById('admin-view').classList.add('hidden');
+                document.getElementById('piket-view').classList.remove('hidden');
+                authBtnLabel.innerText = "Ganti Akun";
+            }
+        }
+
+        // NAVIGATION TABS
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex-1 min-w-[140px] py-3 px-3 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:bg-slate-100 flex items-center justify-center space-x-2 transition";
+            });
+            
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.className = "tab-btn flex-1 min-w-[140px] py-3 px-3 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center space-x-2 transition bg-brand-600 text-white shadow-sm";
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`content-${tab}`).classList.remove('hidden');
+        }
+
+        // SAVE KBM REPORT
+        function saveKbmReport(e) {
+            e.preventDefault();
+            const newEntry = {
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+                kelas: document.getElementById('kbm-kelas').value,
+                jampel: document.getElementById('kbm-jampel').value,
+                mapel: document.getElementById('kbm-mapel').value,
+                guru: document.getElementById('kbm-guru').value,
+                status: document.getElementById('kbm-status').value,
+                catatan: document.getElementById('kbm-catatan').value
+            };
+
+            kbmData.unshift(newEntry);
+            localStorage.setItem('sipiket_wb_kbm', JSON.stringify(kbmData));
+            showToast('Laporan KBM berhasil disimpan');
+            document.getElementById('form-kbm').reset();
+            renderTodayKbmTable();
+        }
+
+        function renderTodayKbmTable() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayData = kbmData.filter(item => item.date === today);
+            const tbody = document.getElementById('table-kbm-today');
+
+            if (todayData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Belum ada data KBM dicatat hari ini.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = todayData.map(item => `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-bold text-brand-700">${item.kelas}</td>
+                    <td class="p-3 font-medium">${item.jampel}</td>
+                    <td class="p-3">
+                        <div class="font-bold text-slate-800">${item.guru}</div>
+                        <div class="text-[11px] text-slate-500">${item.mapel}</div>
+                    </td>
+                    <td class="p-3">${getStatusBadge(item.status)}</td>
+                    <td class="p-3 max-w-xs truncate">${item.catatan || '-'}</td>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteEntry('kbm', ${item.id})" class="text-red-500 hover:text-red-700 text-xs font-bold">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // SAVE UPACARA REPORT
+        function saveUpacaraReport(e) {
+            e.preventDefault();
+            
+            const guruPresensiList = [];
+            const dropdowns = document.querySelectorAll('.upacara-guru-status');
+            dropdowns.forEach(select => {
+                guruPresensiList.push({
+                    guru: select.getAttribute('data-guru'),
+                    status: select.value
+                });
+            });
+
+            const newEntry = {
+                id: Date.now(),
+                date: document.getElementById('upacara-tanggal').value,
+                pembina: document.getElementById('upacara-pembina').value,
+                guruPresensi: guruPresensiList,
+                catatan: document.getElementById('upacara-catatan').value
+            };
+
+            upacaraData.unshift(newEntry);
+            localStorage.setItem('sipiket_wb_upacara', JSON.stringify(upacaraData));
+            showToast('Laporan Upacara Bendera berhasil disimpan');
+            document.getElementById('form-upacara').reset();
+        }
+
+        // SAVE BRIEFING REPORT
+        function saveBriefingReport(e) {
+            e.preventDefault();
+
+            const guruPresensiList = [];
+            const dropdowns = document.querySelectorAll('.briefing-guru-status');
+            dropdowns.forEach(select => {
+                guruPresensiList.push({
+                    guru: select.getAttribute('data-guru'),
+                    status: select.value
+                });
+            });
+
+            const newEntry = {
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                jenis: document.getElementById('briefing-jenis').value,
+                pimpinan: document.getElementById('briefing-pimpinan').value,
+                guruPresensi: guruPresensiList,
+                poin: document.getElementById('briefing-poin').value
+            };
+
+            briefingData.unshift(newEntry);
+            localStorage.setItem('sipiket_wb_briefing', JSON.stringify(briefingData));
+            showToast('Laporan Briefing berhasil disimpan');
+            document.getElementById('form-briefing').reset();
+        }
+
+        // SAVE 5 PIKET HARIAN REPORT
+        function savePiketHarianReport(e) {
+            e.preventDefault();
+            
+            const timPiket = [];
+            for (let i = 1; i <= 5; i++) {
+                const nama = document.getElementById(`piket-guru-${i}`).value;
+                const status = document.getElementById(`piket-status-${i}`).value;
+                const jam = document.getElementById(`piket-jam-${i}`).value;
+                if (nama) {
+                    timPiket.push({ nama, status, jam });
+                }
+            }
+
+            if (timPiket.length === 0) {
+                alert('Pilih minimal 1 orang Guru Piket!');
+                return;
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                timPiket: timPiket,
+                kejadian: document.getElementById('piket-kejadian').value
+            };
+
+            piketHarianData.unshift(newEntry);
+            localStorage.setItem('sipiket_wb_piket_harian', JSON.stringify(piketHarianData));
+            showToast('Presensi Tim Piket berhasil dicatat');
+            document.getElementById('form-piket-harian').reset();
+        }
+
+        function getStatusBadge(status) {
+            switch(status) {
+                case 'Hadir': case 'Hadir Bertugas': return `<span class="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Hadir</span>`;
+                case 'Tidak Bertugas': return `<span class="bg-slate-200 text-slate-700 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Tidak Bertugas</span>`;
+                case 'Tugas': return `<span class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Ada Tugas</span>`;
+                case 'Izin': return `<span class="bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Izin</span>`;
+                case 'Sakit': return `<span class="bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Sakit</span>`;
+                case 'Terlambat': return `<span class="bg-orange-100 text-orange-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Terlambat</span>`;
+                default: return `<span class="bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full text-[11px] font-bold">Tanpa Ket.</span>`;
+            }
+        }
+
+        function deleteEntry(type, id) {
+            if (!confirm('Apakah Anda yakin ingin menghapus data laporan ini?')) return;
+            if (type === 'kbm') {
+                kbmData = kbmData.filter(item => item.id !== id);
+                localStorage.setItem('sipiket_wb_kbm', JSON.stringify(kbmData));
+                renderTodayKbmTable();
+            } else if (type === 'upacara') {
+                upacaraData = upacaraData.filter(item => item.id !== id);
+                localStorage.setItem('sipiket_wb_upacara', JSON.stringify(upacaraData));
+            } else if (type === 'briefing') {
+                briefingData = briefingData.filter(item => item.id !== id);
+                localStorage.setItem('sipiket_wb_briefing', JSON.stringify(briefingData));
+            } else if (type === 'piket') {
+                piketHarianData = piketHarianData.filter(item => item.id !== id);
+                localStorage.setItem('sipiket_wb_piket_harian', JSON.stringify(piketHarianData));
+            }
+            applyAdminFilter();
+            renderAdminStats();
+            showToast('Data berhasil dihapus');
+        }
+
+        function renderAdminStats() {
+            document.getElementById('stat-kbm-count').innerText = kbmData.length;
+            const absent = kbmData.filter(k => k.status === 'Tanpa Keterangan' || k.status === 'Tugas').length;
+            document.getElementById('stat-absent-count').innerText = absent;
+            document.getElementById('stat-upacara-count').innerText = upacaraData.length;
+            document.getElementById('stat-briefing-count').innerText = briefingData.length;
+        }
+
+        function updateKbmInfographics(filteredKbm) {
+            const countHadir = filteredKbm.filter(i => i.status === 'Hadir').length;
+            const countTugas = filteredKbm.filter(i => i.status === 'Tugas').length;
+            const countIzin = filteredKbm.filter(i => i.status === 'Izin' || i.status === 'Sakit').length;
+            const countAlpa = filteredKbm.filter(i => i.status === 'Tanpa Keterangan' || i.status === 'Alpa').length;
+
+            const total = filteredKbm.length;
+
+            // Update Counts
+            document.getElementById('chart-count-hadir').innerText = countHadir;
+            document.getElementById('chart-count-tugas').innerText = countTugas;
+            document.getElementById('chart-count-izin').innerText = countIzin;
+            document.getElementById('chart-count-alpa').innerText = countAlpa;
+            document.getElementById('kbm-total-filtered-text').innerText = `Total: ${total} Record Jam KBM`;
+
+            // Update Percentages
+            const pctHadir = total > 0 ? Math.round((countHadir / total) * 100) : 0;
+            const pctTugas = total > 0 ? Math.round((countTugas / total) * 100) : 0;
+            const pctIzin = total > 0 ? Math.round((countIzin / total) * 100) : 0;
+            const pctAlpa = total > 0 ? Math.round((countAlpa / total) * 100) : 0;
+
+            const pctAbsentTotal = 100 - pctHadir;
+
+            document.getElementById('stat-rate-hadir').innerText = `${pctHadir}%`;
+            document.getElementById('stat-rate-absent').innerText = `${pctAbsentTotal}%`;
+
+            // Update Progress Bar Dynamic Widths
+            document.getElementById('bar-hadir').style.width = `${pctHadir}%`;
+            document.getElementById('bar-tugas').style.width = `${pctTugas}%`;
+            document.getElementById('bar-izin').style.width = `${pctIzin}%`;
+            document.getElementById('bar-alpa').style.width = `${pctAlpa}%`;
+
+            // Update Chart.js Instance
+            if (kbmPieChart) {
+                kbmPieChart.data.datasets[0].data = [countHadir, countTugas, countIzin, countAlpa];
+                kbmPieChart.update();
+            }
+
+            // Update Period Label
+            const range = document.getElementById('filter-range').value;
+            const rangeLabelMap = {
+                'all': 'Semua Data',
+                'weekly': 'Minggu Ini',
+                'monthly': 'Bulan Ini',
+                'yearly': 'Tahun Ini'
+            };
+            document.getElementById('chart-period-label').innerText = rangeLabelMap[range] || 'Semua Data';
+        }
+
+        function applyAdminFilter() {
+            const range = document.getElementById('filter-range').value;
+            const category = document.getElementById('filter-category').value;
+            const search = document.getElementById('filter-search').value.toLowerCase();
+
+            const thead = document.getElementById('admin-table-head');
+            const tbody = document.getElementById('admin-table-body');
+
+            // Apply KBM specific infographic update
+            const now = new Date();
+            const filteredKbmData = kbmData.filter(item => {
+                const itemDate = new Date(item.date);
+                if (range === 'weekly') {
+                    const diffDays = Math.ceil(Math.abs(now - itemDate) / (1000 * 60 * 60 * 24));
+                    return diffDays <= 7;
+                } else if (range === 'monthly') {
+                    return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+                } else if (range === 'yearly') {
+                    return itemDate.getFullYear() === now.getFullYear();
+                }
+                return true;
+            });
+            updateKbmInfographics(filteredKbmData);
+
+            let dataset = [];
+            if (category === 'kbm') dataset = kbmData;
+            else if (category === 'upacara') dataset = upacaraData;
+            else if (category === 'briefing') dataset = briefingData;
+            else if (category === 'piket') dataset = piketHarianData;
+
+            // Range Date Filter
+            dataset = dataset.filter(item => {
+                const itemDate = new Date(item.date);
+                if (range === 'weekly') {
+                    const diffDays = Math.ceil(Math.abs(now - itemDate) / (1000 * 60 * 60 * 24));
+                    return diffDays <= 7;
+                } else if (range === 'monthly') {
+                    return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+                } else if (range === 'yearly') {
+                    return itemDate.getFullYear() === now.getFullYear();
+                }
+                return true;
+            });
+
+            // Keyword Filter
+            if (search) {
+                dataset = dataset.filter(item => JSON.stringify(item).toLowerCase().includes(search));
+            }
+
+            // Render Dynamic Head & Body
+            if (category === 'kbm') {
+                thead.innerHTML = `
+                    <tr>
+                        <th class="p-3">Tanggal</th>
+                        <th class="p-3">Kelas SMKN WB</th>
+                        <th class="p-3">Jam Ke</th>
+                        <th class="p-3">Guru / Mapel</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Catatan Piket</th>
+                        <th class="p-3 text-right no-print">Aksi</th>
+                    </tr>
+                `;
+                tbody.innerHTML = dataset.length ? dataset.map(i => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-medium text-slate-700">${i.date}</td>
+                        <td class="p-3 font-bold text-brand-700">${i.kelas}</td>
+                        <td class="p-3">${i.jampel}</td>
+                        <td class="p-3"><div class="font-bold text-slate-800">${i.guru}</div><div class="text-[11px] text-slate-400">${i.mapel}</div></td>
+                        <td class="p-3">${getStatusBadge(i.status)}</td>
+                        <td class="p-3 max-w-xs truncate">${i.catatan || '-'}</td>
+                        <td class="p-3 text-right no-print"><button onclick="deleteEntry('kbm', ${i.id})" class="text-red-500 hover:text-red-700 font-bold"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `).join('') : `<tr><td colspan="7" class="p-4 text-center text-slate-400">Data laporan KBM tidak ditemukan.</td></tr>`;
+            } else if (category === 'upacara') {
+                thead.innerHTML = `
+                    <tr>
+                        <th class="p-3">Tanggal</th>
+                        <th class="p-3">Pembina Upacara</th>
+                        <th class="p-3">Ringkasan Kehadiran Guru</th>
+                        <th class="p-3">Evaluasi / Catatan</th>
+                        <th class="p-3 text-right no-print">Aksi</th>
+                    </tr>
+                `;
+                tbody.innerHTML = dataset.length ? dataset.map(i => {
+                    const hadirCount = i.guruPresensi ? i.guruPresensi.filter(g => g.status === 'Hadir').length : 0;
+                    const totalGuru = i.guruPresensi ? i.guruPresensi.length : 0;
+                    return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-medium">${i.date}</td>
+                        <td class="p-3 font-bold text-slate-800">${i.pembina}</td>
+                        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${hadirCount} / ${totalGuru} Guru Hadir</span></td>
+                        <td class="p-3 max-w-xs truncate">${i.catatan || '-'}</td>
+                        <td class="p-3 text-right no-print"><button onclick="deleteEntry('upacara', ${i.id})" class="text-red-500 hover:text-red-700 font-bold"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;}).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400">Data laporan upacara tidak ditemukan.</td></tr>`;
+            } else if (category === 'briefing') {
+                thead.innerHTML = `
+                    <tr>
+                        <th class="p-3">Tanggal</th>
+                        <th class="p-3">Jenis Pertemuan</th>
+                        <th class="p-3">Pemimpin Briefing</th>
+                        <th class="p-3">Kehadiran Guru</th>
+                        <th class="p-3">Poin Notulensi</th>
+                        <th class="p-3 text-right no-print">Aksi</th>
+                    </tr>
+                `;
+                tbody.innerHTML = dataset.length ? dataset.map(i => {
+                    const hadirCount = i.guruPresensi ? i.guruPresensi.filter(g => g.status === 'Hadir').length : 0;
+                    return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-medium">${i.date}</td>
+                        <td class="p-3 font-bold">${i.jenis}</td>
+                        <td class="p-3">${i.pimpinan}</td>
+                        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">${hadirCount} Guru Hadir</span></td>
+                        <td class="p-3 max-w-xs truncate">${i.poin}</td>
+                        <td class="p-3 text-right no-print"><button onclick="deleteEntry('briefing', ${i.id})" class="text-red-500 hover:text-red-700 font-bold"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;}).join('') : `<tr><td colspan="6" class="p-4 text-center text-slate-400">Data laporan briefing tidak ditemukan.</td></tr>`;
+            } else if (category === 'piket') {
+                thead.innerHTML = `
+                    <tr>
+                        <th class="p-3">Tanggal</th>
+                        <th class="p-3">Tim Guru Piket Bertugas (5 Personil)</th>
+                        <th class="p-3">Catatan / Kejadian Penting</th>
+                        <th class="p-3 text-right no-print">Aksi</th>
+                    </tr>
+                `;
+                tbody.innerHTML = dataset.length ? dataset.map(i => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-medium">${i.date}</td>
+                        <td class="p-3 space-y-1">
+                            ${i.timPiket.map(p => `<div class="text-xs"><strong>${p.nama}</strong> (${p.status} - ${p.jam})</div>`).join('')}
+                        </td>
+                        <td class="p-3 max-w-xs truncate">${i.kejadian || '-'}</td>
+                        <td class="p-3 text-right no-print"><button onclick="deleteEntry('piket', ${i.id})" class="text-red-500 hover:text-red-700 font-bold"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `).join('') : `<tr><td colspan="4" class="p-4 text-center text-slate-400">Data presensi guru piket tidak ditemukan.</td></tr>`;
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-range').value = 'all';
+            document.getElementById('filter-category').value = 'kbm';
+            document.getElementById('filter-search').value = '';
+            applyAdminFilter();
+        }
+
+        function exportToCSV() {
+            const category = document.getElementById('filter-category').value;
+            let data = [];
+            let filename = `laporan_smkn_wb_${category}_${new Date().toISOString().split('T')[0]}.csv`;
+
+            if (category === 'kbm') data = kbmData;
+            else if (category === 'upacara') data = upacaraData;
+            else if (category === 'briefing') data = briefingData;
+            else if (category === 'piket') data = piketHarianData;
+
+            if (data.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+
+            const headers = Object.keys(data[0]).join(',');
+            const rows = data.map(obj => Object.values(obj).map(val => `"${typeof val === 'object' ? JSON.stringify(val).replace(/"/g, '""') : val}"`).join(','));
+            const csvContent = 'data:text/csv;charset=utf-8,' + [headers, ...rows].join('\n');
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
